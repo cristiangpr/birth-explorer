@@ -173,8 +173,8 @@ return topMatrons && topMatrons.map((matron, index) =>
            </Col>
          </Row>
          <Row  style={{ textAlign: "center"}}>
-            <Col></Col>
-            <Col>
+            <Col md={4}></Col>
+            <Col md={4}>
               <Form onSubmit={onSubmit} error={errorMessage}>
                 <h6>Enter a starting block and an ending block to find the number of births and top matrons during that time! </h6>
                 <Form.Group >
@@ -205,7 +205,7 @@ return topMatrons && topMatrons.map((matron, index) =>
 
               </Form>
             </Col>
-            <Col></Col>
+            <Col md={4}></Col>
         </Row>
         <Row  style={{paddingTop: "30px", textAlign: "center"}}>
            <Col>
