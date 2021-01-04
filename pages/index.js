@@ -169,7 +169,7 @@ return topMatrons && topMatrons.map((matron, index) =>
          </Row>
          <Row  style={{paddingTop: "100px", textAlign: "center"}}>
             <Col>
-             <img src='https://www.cryptokitties.co/images/breeding-heart/breeding-kitties.svg' style={{maxHeight:"65%"}}/>
+             <img src='https://www.cryptokitties.co/images/breeding-heart/breeding-kitties.svg' style={{maxWidth:"90%", maxHeight:"65%"}}/>
            </Col>
          </Row>
          <Row  style={{ textAlign: "center"}}>
