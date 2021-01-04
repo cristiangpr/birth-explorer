@@ -37,9 +37,9 @@ const  getBirths = async () =>{
           let subSetCount = Math.floor(blockRange / subSet);
           console.log(subSetCount);
           let remainder = blockRange - (subSetCount * subSet);
-          console.log(remainder)
+          
           let limitBlock = +_fromBlock + +subSet;
-          console.log(limitBlock)
+        
       
       
         for (let i = subSetCount; i > 0; i--) {
@@ -88,7 +88,7 @@ const  getBirths = async () =>{
     }
    
      let flatEvents = allEvents.flat(Infinity);
-     console.log(flatEvents);
+     
      flatEvents.forEach(event => allMatrons.push(event.returnValues.matronId));
      setBirthCount(flatEvents.length);
      return allMatrons;
@@ -97,17 +97,17 @@ const  getBirths = async () =>{
 }  
 
 const findTopMatronIds = (allMatrons) => {
-  console.log(allMatrons);
+
   var counts = {};
   allMatrons.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-  console.log(counts);
+
   delete counts["0"];
   const vals = Object.values(counts);
   const max = Math.max(...vals);
-  console.log(max);
+
   setMatronBirths(max);
   let topMatronIds =  Object.keys(counts).filter(key => counts[key] === max);
-  console.log(topMatronIds);
+ 
   return topMatronIds;
 
 
@@ -132,7 +132,7 @@ const onSubmit = async event => {
   setTimeout(() => {
     setLoading(false);
   }, 1000);
-  return console.log(topMatrons)
+ 
 }
 
 const renderMatrons = () => {
