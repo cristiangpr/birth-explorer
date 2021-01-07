@@ -1,5 +1,5 @@
 import React, {  useState }from 'react';
-import {  Col, Row, Container, Form, Button, Card, ListGroup, Spinner } from 'react-bootstrap';
+import {  Col, Row, Container, Form, Button, Card, ListGroup, Spinner, Alert } from 'react-bootstrap';
 import Web3 from 'web3'; 
 const INFURA_NODE = process.env.NEXT_PUBLIC_INFURA_NODE;
 const web3 = new Web3(INFURA_NODE);
@@ -25,7 +25,7 @@ const  getBirths = async () =>{
 
           let _fromBlock = startBlock;
           let _toBlock = endBlock;
-          let subSet = 5000;
+          let subSet = 50000;
           console.log(_fromBlock)
           let allEvents = [];
           let allMatrons = [];
@@ -46,7 +46,7 @@ const  getBirths = async () =>{
              await contract.getPastEvents("Birth",
             {
              fromBlock: _fromBlock,     
-             toBlock: limitBlock // You can also specify 'latest'
+             toBlock: limitBlock 
             })
             .then((events) => {
              console.log(events)
@@ -59,7 +59,7 @@ const  getBirths = async () =>{
                     await contract.getPastEvents("Birth",
             {
                     fromBlock: _fromBlock,     
-                    toBlock: +_fromBlock + +remainder // You can also specify 'latest'
+                    toBlock: +_fromBlock + +remainder 
             })
                    .then((events) => {
                    console.log(events)
@@ -67,7 +67,8 @@ const  getBirths = async () =>{
              })
             }
        } catch (error) {
-          console.log(error);
+          setLoading(false);
+          setErrorMessage(error.message);
         }
     } else {
       try {
@@ -83,7 +84,8 @@ const  getBirths = async () =>{
          })
         
         }catch (error) {
-        console.log(error);
+          setLoading(false);
+        setErrorMessage(error.message);
        }
     }
    
@@ -98,7 +100,7 @@ const  getBirths = async () =>{
 
 const findTopMatronIds = (allMatrons) => {
 
-  var counts = {};
+  try {var counts = {};
   allMatrons.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
 
   delete counts["0"];
@@ -109,17 +111,24 @@ const findTopMatronIds = (allMatrons) => {
   let topMatronIds =  Object.keys(counts).filter(key => counts[key] === max);
  
   return topMatronIds;
-
+  } catch (error) {
+    setLoading(false);
+    setErrorMessage(error.message);
+   }
 
 }
 const getTopMatrons = async (topMatronIds) => {
-    let _topMatrons = [];
+   try { let _topMatrons = [];
     topMatronIds.forEach(async element =>
     await contract.methods.getKitty(element).call().then(result => _topMatrons.push(result))
     
   )
  return setTopMatrons(_topMatrons);
- 
+    } catch (error) {
+      setLoading(false);
+      setErrorMessage(error.message);
+     }
+  
 
 }
 const onSubmit = async event => {
@@ -210,6 +219,12 @@ return topMatrons && topMatrons.map((matron, index) =>
         <Row  style={{paddingTop: "30px", textAlign: "center"}}>
            <Col>
              {loading ? <p>This may take several minutes</p> : <h6>Total Births: {birthCount}      </h6>}
+             {errorMessage &&   <Alert variant="danger" onClose={() => setErrorMessage(false)} dismissible>
+        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+        <p>
+          {errorMessage}
+        </p>
+      </Alert> }
            </Col>
         </Row>
         <Row  style={{paddingTop: "30px", textAlign: "center"}}>
